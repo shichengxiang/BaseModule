@@ -1,6 +1,5 @@
 package com.vce.baselib.network
 
-import android.view.textclassifier.TextClassification
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -16,9 +15,13 @@ class BaseRetrofit<T> {
     private val DEFAULT_TIME = 10L
     var retrofit: Retrofit? = null
     private var server: T? = null
-    private val url = ""
     private var tClass: Class<T>? = null
-
+    companion object{
+        var baseHost:String?=""
+        fun init(host:String){
+            baseHost = host
+        }
+    }
     constructor(tClass: Class<T>) {
         this.tClass = tClass
         init(tClass)
@@ -43,7 +46,7 @@ class BaseRetrofit<T> {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
-            .baseUrl(url)
+            .baseUrl(baseHost)
             .build()
         server = retrofit?.create(tClass)
     }
