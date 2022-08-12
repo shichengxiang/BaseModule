@@ -1,5 +1,6 @@
 package com.vce.baselib
 
+import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -13,4 +14,7 @@ import com.vce.baselib.network.BaseResponse
 const val TAG = "baselib"
 fun log(msg:String){
     Log.d(TAG,msg)
+}
+fun dp2px(d:Int):Int{
+    return (Resources.getSystem().displayMetrics.density*d).toInt()
 }
