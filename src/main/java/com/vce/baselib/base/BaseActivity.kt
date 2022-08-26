@@ -26,9 +26,7 @@ abstract class BaseActivity<T:ViewBinding>: AppCompatActivity() {
         setContentView(bind?.root)
         initView(savedInstanceState)
         loadData()
-        setEvent()
     }
     abstract fun initView(bundle: Bundle?)
     abstract fun loadData()
-    abstract fun setEvent()
 }
