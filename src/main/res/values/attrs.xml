@@ -846,4 +846,16 @@
         <attr name="shape_shadowOffsetY" />
     </declare-styleable>
 
+    <declare-styleable name="MyToolBar">
+        <attr name="tb_title_size" format="dimension"/>
+        <attr name="tb_title_color" format="color"/>
+        <attr name="tb_end_textview1_txt" format="string"/>
+        <attr name="tb_end_textview1_icon" format="reference"/>
+        <attr name="tb_end_textview2_txt" format="string"/>
+        <attr name="tb_end_textview2_icon" format="reference"/>
+        <attr name="tb_start_icon" format="reference"/>
+        <attr name="tb_image1" format="reference"/>
+        <attr name="tb_image2" format="reference"/>
+    </declare-styleable>
+
 </resources>

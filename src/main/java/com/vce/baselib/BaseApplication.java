@@ -18,7 +18,6 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Util.log("baselib 初始化了");
         Util.init(this);
     }
 }

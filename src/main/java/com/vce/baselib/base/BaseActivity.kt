@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import com.vce.baselib.R
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -24,6 +25,8 @@ abstract class BaseActivity<T:ViewBinding>: AppCompatActivity() {
             bind = method.invoke(null,layoutInflater) as T
         }
         setContentView(bind?.root)
+        val ivBack = bind?.root?.findViewById<View>(R.id.iv_start)
+        ivBack?.setOnClickListener { onBackPressed() }
         initView(savedInstanceState)
         loadData()
     }
