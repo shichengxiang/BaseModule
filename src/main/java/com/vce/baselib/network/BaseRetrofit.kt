@@ -1,9 +1,12 @@
 package com.vce.baselib.network
 
 import okhttp3.Dispatcher
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -16,39 +19,45 @@ class BaseRetrofit<T> {
     var retrofit: Retrofit? = null
     private var server: T? = null
     private var tClass: Class<T>? = null
-    companion object{
-        var baseHost:String?=""
-        fun init(host:String){
-            baseHost = host
-        }
-    }
+    private var baseHost :String = ""
+    private var mOkHttpClient:OkHttpClient?=null
+    private var mInterceptor:Interceptor?=null
+
     constructor(tClass: Class<T>) {
         this.tClass = tClass
-        init(tClass)
     }
-
-    private fun init(tClass: Class<T>) {
+    fun setHost(host:String):BaseRetrofit<T>{
+        this.baseHost = host
+        return this
+    }
+    fun addInterceptor(interceptor:Interceptor):BaseRetrofit<T>{
+        mInterceptor = interceptor
+        return this
+    }
+    fun init():BaseRetrofit<T> {
         //调度器
         var dispatcher = Dispatcher()
         dispatcher.maxRequests = 10
         dispatcher.maxRequestsPerHost = 10
         //拦截器
-        var headInterceptor = HeadInterceptor()
-        var okHttpClient = OkHttpClient.Builder()
+//        var headInterceptor = HeadInterceptor()
+        mOkHttpClient = OkHttpClient.Builder()
+            .protocols(Collections.singletonList(Protocol.HTTP_1_1))
             .readTimeout(DEFAULT_TIME, TimeUnit.SECONDS)
             .connectTimeout(DEFAULT_TIME, TimeUnit.SECONDS)
             .callTimeout(DEFAULT_TIME, TimeUnit.SECONDS)
-            .addInterceptor(headInterceptor)
+//            .addInterceptor(headInterceptor)
+            .addInterceptor(mInterceptor?:HeadInterceptor())
             .dispatcher(dispatcher)
             .build()
 
         retrofit = Retrofit.Builder()
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .client(mOkHttpClient)
+            .addConverterFactory(MyGsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .baseUrl(baseHost)
             .build()
-        server = retrofit?.create(tClass)
+        return this
     }
 
     public fun getServer(): T {

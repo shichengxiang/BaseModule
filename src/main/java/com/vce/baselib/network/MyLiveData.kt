@@ -3,6 +3,8 @@ package com.vce.baselib.network
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.vce.baselib.log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +30,7 @@ class MyLiveData<T> constructor(var call: Call<T>) : LiveData<T?>() {
                     val body = response.body()
                     //                        LogUtil.d("返回数据=" + JSON.toJSONString(body));
                     if (200 == response.code()) {
+//                        log("success== ${Gson().toJson(body)}")
 //                            LogUtil.d("网络请求成功");
 
 //                            ApiResponse t = JSON.parseObject(JSON.toJSONString(body), ApiResponse.class);
@@ -48,12 +51,14 @@ class MyLiveData<T> constructor(var call: Call<T>) : LiveData<T?>() {
                         postValue(body)
                         //                            }
                     } else {
+                        log("请求错误 ${response.code()}")
                         val apiResponse: BaseResponse<*> = BaseResponse<Any?>(response.code(), response.message(), null)
                         postValue(apiResponse as T)
                     }
                 }
 
                 override fun onFailure(call: Call<T>, t: Throwable) {
+                    log("连接服务器失败 ${t.message}")
                     postValue(BaseResponse<Any>(-1, t.message!!) as T)
                 }
             })
@@ -75,16 +80,16 @@ class MyLiveData<T> constructor(var call: Call<T>) : LiveData<T?>() {
         this.completed=c
         return this
     }
-    fun call(owner: LifecycleOwner){
-        observe(owner){
-            if(it is BaseResponse<*>){
-                if(it.isSuccess()){
-                    success?.invoke(it)
-                }else{
-                    error?.invoke(it)
-                }
-                completed?.invoke(it)
-            }
-        }
-    }
+//    fun call(owner: LifecycleOwner){
+//        observe(owner){
+//            if(it is BaseResponse<*>){
+//                if(it.isSuccess()){
+//                    success?.invoke(it)
+//                }else{
+//                    error?.invoke(it)
+//                }
+//                completed?.invoke(it)
+//            }
+//        }
+//    }
 }

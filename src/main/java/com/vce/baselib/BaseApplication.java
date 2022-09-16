@@ -2,11 +2,6 @@ package com.vce.baselib;
 
 import android.app.Application;
 
-import androidx.lifecycle.Observer;
-
-import com.tencent.mmkv.MMKV;
-import com.vce.baselib.network.BaseResponse;
-import com.vce.baselib.network.Client;
 import com.vce.baselib.utils.Util;
 
 /**

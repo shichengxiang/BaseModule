@@ -19,7 +19,7 @@ public class LiveDataCallAdapterFactory extends CallAdapter.Factory {
         Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
         Type rawType = getRawType(observableType);
         if (rawType != BaseResponse.class){
-            throw new IllegalArgumentException("type must be ApiResponse");
+            throw new IllegalArgumentException("type must be BaseResponse");
         }
         if (!ParameterizedType.class.isInstance(observableType)){
             throw new IllegalArgumentException("resource must be Parameterized");

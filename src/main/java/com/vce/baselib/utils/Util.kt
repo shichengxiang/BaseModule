@@ -14,12 +14,14 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.Toast
+import androidx.core.text.HtmlCompat
 import com.tencent.mmkv.MMKV
 import java.util.regex.Pattern
 
@@ -86,12 +88,12 @@ object Util {
 
     @JvmStatic
     fun log(msg: String) {
-        Log.d("vce_log",msg)
+        Log.d("vnews",msg)
     }
 
     @JvmStatic
     fun logE(err: String) {
-        Log.e("vce_log",err)
+        Log.e("vnews",err)
     }
 
     /**
@@ -208,6 +210,13 @@ object Util {
             }
         }
         return false
+    }
+    /**
+     * html支持 不处理图片
+     */
+    @JvmStatic
+    fun getHtmlTextNoImage(src:CharSequence?): Spanned {
+        return HtmlCompat.fromHtml(src?.toString()?:"", HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
     /**

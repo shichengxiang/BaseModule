@@ -5,11 +5,12 @@ package com.vce.baselib.network
  * 创建者: shichengxiang
  * 创建时间：2022/3/23
  */
-class BaseResponse<T> {
+open class BaseResponse<T> {
     var code: Int = 0
     var msg: String? = null
     var data: T? = null
-
+    var count:Int?=null
+    constructor()
     constructor(code: Int, msg: String) {
         this.code = code
         this.msg = msg
@@ -21,7 +22,4 @@ class BaseResponse<T> {
         this.msg = msg
         this.data = data
     }
-
-    open fun isSuccess() = code == 1
-
 }
