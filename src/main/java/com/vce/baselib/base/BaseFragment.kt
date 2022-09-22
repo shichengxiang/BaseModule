@@ -33,5 +33,7 @@ abstract class BaseFragment<T:ViewBinding> :Fragment(){
         initView(view)
     }
     abstract fun initView(root: View)
+    abstract fun onLeave()
+    abstract fun onSelected()
 
 }

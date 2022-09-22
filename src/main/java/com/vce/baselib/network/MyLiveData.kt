@@ -16,10 +16,10 @@ import java.util.concurrent.atomic.AtomicBoolean
  * 创建时间：2022/3/25
  */
 class MyLiveData<T> constructor(var call: Call<T>) : LiveData<T?>() {
-//    private val call: Call<T>
-    var success:((T)->Unit)?=null
-    var error:((T)->Unit)?=null
-    var completed:((T)->Unit)?=null
+    //    private val call: Call<T>
+    var success: ((T) -> Unit)? = null
+    var error: ((T) -> Unit)? = null
+    var completed: ((T) -> Unit)? = null
     private val stared = AtomicBoolean(false)
     override fun onActive() {
         super.onActive()
@@ -32,9 +32,7 @@ class MyLiveData<T> constructor(var call: Call<T>) : LiveData<T?>() {
                     if (200 == response.code()) {
 //                        log("success== ${Gson().toJson(body)}")
 //                            LogUtil.d("网络请求成功");
-
-//                            ApiResponse t = JSON.parseObject(JSON.toJSONString(body), ApiResponse.class);
-
+                        var b = body as BaseResponse<*>
 //                            if (t.code == ApiResponse.CODE_INVALID) {
 //                                Log.e("ApiResponse", ApiResponse.CODE_INVALID + "");
 ////                                LoginInvalidActivity.forward("登录失效");
@@ -68,16 +66,19 @@ class MyLiveData<T> constructor(var call: Call<T>) : LiveData<T?>() {
     fun cancel() {
         call.cancel()
     }
-    fun success(s:(T)->Unit):MyLiveData<T>{
-        this.success=s
+
+    fun success(s: (T) -> Unit): MyLiveData<T> {
+        this.success = s
         return this
     }
-    fun error(e:(T)->Unit):MyLiveData<T>{
-        this.error=e
+
+    fun error(e: (T) -> Unit): MyLiveData<T> {
+        this.error = e
         return this
     }
-    fun completed(c:(T)->Unit):MyLiveData<T>{
-        this.completed=c
+
+    fun completed(c: (T) -> Unit): MyLiveData<T> {
+        this.completed = c
         return this
     }
 //    fun call(owner: LifecycleOwner){

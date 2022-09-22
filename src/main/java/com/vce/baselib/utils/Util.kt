@@ -6,9 +6,7 @@ import android.app.Application
 import android.app.Service
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Point
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
@@ -23,6 +21,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import com.tencent.mmkv.MMKV
+import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
 
@@ -452,5 +451,23 @@ object Util {
         override fun onClick(widget: View) {
             click.invoke()
         }
+    }
+
+    /**
+     * bitmap 转字符数组
+     */
+    fun bmpToByteArray(bmp: Bitmap, needRecycle: Boolean): ByteArray? {
+        val output = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, output)
+        if (needRecycle) {
+            bmp.recycle()
+        }
+        val result = output.toByteArray()
+        try {
+            output.close()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return result
     }
 }
